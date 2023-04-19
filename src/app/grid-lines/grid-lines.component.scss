@@ -1,0 +1,126 @@
+.grid-lines {
+  --row-height: 32px;
+  --scrollh: 7px;
+
+  font-family: Monaco;
+  display: grid;
+  width: 50vw;
+  margin-bottom: 2ch;
+
+  grid-template:
+    " .    tophead " var(--row-height)
+    " left middle  " auto
+    / minmax(200px,30%) 1fr;
+
+  &.extended {
+    --mxw: calc(50vw - var(--row-height));
+    grid-template:
+      " .    tophead tophead " var(--row-height)
+      " left middle  right   " auto
+      / 30% 1fr 32px;
+  }
+  &:not(.extended) {
+    --mxw: 100%;
+  }
+
+  .grid-item {
+    & > div {
+      max-height: var(--row-height);
+      padding: 0 1ch;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-auto-rows: var(--row-height);
+      align-items: stretch;
+    }
+  }
+
+  .tophead {
+    grid-area: tophead;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: grey;
+    text-transform: uppercase;
+  }
+  .left {
+    grid-area: left;
+    & > div {
+      text-transform: capitalize;
+      place-items: center start;
+    }
+    & > div:first-of-type {
+      text-transform: uppercase;
+    }
+  }
+
+  .right {
+    grid-area: right;
+    & > div:first-of-type {
+      height: 100%;
+    }
+    & > div {
+      display: grid;
+      place-items: center;
+      font-size: 18pt;
+      padding: 0;
+      cursor: pointer;
+      height: 100%;
+    }
+  }
+
+  .left, .right  {
+    & > div:first-of-type {
+      background-color: lightgrey;
+    }
+  }
+
+  .middle {
+    grid-area: middle;
+    max-width: var(--mxw);
+    overflow: auto;
+    &::-webkit-scrollbar {
+      width: var(--scrollh);
+      height: var(--scrollh);
+    }
+    &::-webkit-scrollbar-track {
+      background-color: lightblue;
+      border-radius: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: navy;
+      border-radius: 5px;
+    }
+
+    & > div {
+      &.full-grid {
+        display: grid;
+        grid-auto-rows: var(--row-height);
+        .row-cell, .row-cell-header {
+          display: flex;
+          flex-grow: 0;
+          align-items: center;
+          justify-content: flex-end;
+          padding: 0 0.3rem;
+          span {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            max-width: 100%;
+          }
+          input {
+            min-width: 90%;
+            height: 27px;
+            padding: 0 1ch;
+            width: auto;
+            &[readonly] {
+              background-color: grey;
+            }
+          }
+        }
+        .row-cell-header {
+          background-color: lightgrey;
+        }
+      }
+    }
+  }
+}

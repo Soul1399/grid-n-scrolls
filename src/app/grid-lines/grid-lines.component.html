@@ -1,0 +1,40 @@
+<div *ngIf="data$ | async as data">
+  <ng-container
+    *ngFor="let grid of data"
+    [ngTemplateOutlet]="gridlines"
+    [ngTemplateOutletContext]="{ $implicit: grid }">
+  </ng-container>
+</div>
+
+<ng-template #gridlines let-grid>
+  <div *ngIf="allFigures$ | async as figures" class="grid-lines extended">
+    <div class="grid-item tophead">{{ grid.title }}</div>
+
+    <div class="grid-item left">
+      <div>{{ grid.subtitle }}</div>
+      <div *ngFor="let name of grid.names">{{ name.label }}</div>
+    </div>
+
+    <div class="middle">
+      <div class="full-grid" [ngStyle]=" { 'grid-template-columns': grid.gridTemplate } ">
+        <div *ngFor="let year of grid.years" class="row-cell-header">
+          <span>{{ year.label }}</span>
+        </div>
+        <ng-container *ngFor="let n of grid.names">
+          <ng-container *ngFor="let y of grid.years">
+            <div class="row-cell">
+              <input [value]="figures[n.key + '/' + y.year]" [readonly]="n.type !== 'name'">
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="grid-item right">
+      <div></div>
+      <div *ngFor="let name of grid.names">
+        <span *ngIf="name.type === 'name'" (click)="toggleExtended(grid.title, name)">{{ name.collapsed ? '+' : '-' }}</span>
+      </div>
+    </div>
+  </div>
+</ng-template>
