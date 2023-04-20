@@ -14,11 +14,11 @@ import { ScrollDispatcher, CdkScrollable } from '@angular/cdk/scrolling';
 })
 export class GridLinesComponent implements OnInit, OnDestroy {
   readonly MainSection = 'main';
+  readonly ScrollDivClass = 'middle';
   data$ = new BehaviorSubject<GridFigures[]>([]);
   allFigures$ = new BehaviorSubject<{ [key: string]: number | null }>({});
 
   sbcbScroll: Subscription;
-  hScroll$ = new BehaviorSubject<number | string>('max');
 
   initialData: RealizedFigures | null = null;
 
@@ -27,11 +27,10 @@ export class GridLinesComponent implements OnInit, OnDestroy {
       .scrolled()
       .pipe(
         map(x => x as CdkScrollable),
-        filter(x => x != null && x.getElementRef().nativeElement.classList.contains('middle')))
+        filter(x => x != null && x.getElementRef().nativeElement.classList.contains(this.ScrollDivClass)))
       .subscribe(s => {
         const middle = s.getElementRef().nativeElement;
-        const others = Array.from(document.querySelectorAll('.middle')).filter(x => x != middle);
-        console.log(middle);
+        const others = Array.from(document.querySelectorAll(`.${this.ScrollDivClass}`)).filter(x => x != middle);
         others.forEach(div => div.scrollLeft = middle.scrollLeft);
       });
   }
