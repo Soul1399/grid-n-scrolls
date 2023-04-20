@@ -105,3 +105,10 @@ dist
 
 # Angular
 .angular/
+
+# VS Code
+.vscode
+
+# VSCodium
+
+
