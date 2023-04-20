@@ -15,7 +15,7 @@
       <div *ngFor="let name of grid.names">{{ name.label }}</div>
     </div>
 
-    <div class="middle">
+    <div [attr.name]="'middle-' + grid.title" class="middle" cdkScrollable>
       <div class="full-grid" [ngStyle]=" { 'grid-template-columns': grid.gridTemplate } ">
         <div *ngFor="let year of grid.years" class="row-cell-header">
           <span>{{ year.label }}</span>

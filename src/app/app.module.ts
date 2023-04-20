@@ -8,6 +8,8 @@ import { HomeComponent } from './home/home.component';
 import { RootComponent } from './root/root.component';
 import { GridLinesComponent } from './grid-lines/grid-lines.component';
 
+import { ScrollingModule } from '@angular/cdk/scrolling';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +20,8 @@ import { GridLinesComponent } from './grid-lines/grid-lines.component';
   imports: [
     BrowserModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ScrollingModule
   ],
   providers: [],
   bootstrap: [RootComponent]

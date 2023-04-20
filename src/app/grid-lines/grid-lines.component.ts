@@ -1,23 +1,39 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { inject, Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, BehaviorSubject, Subscription } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { GridFigures } from '../model/grid-figures';
 import { RealizedFigures } from '../state/realized-figures';
 import { GridNameFigure } from '../model/grid-name-figure';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { ScrollDispatcher, CdkScrollable } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-grid-lines',
   templateUrl: './grid-lines.component.html',
   styleUrls: ['./grid-lines.component.scss']
 })
-export class GridLinesComponent implements OnInit {
+export class GridLinesComponent implements OnInit, OnDestroy {
   readonly MainSection = 'main';
   data$ = new BehaviorSubject<GridFigures[]>([]);
   allFigures$ = new BehaviorSubject<{ [key: string]: number | null }>({});
 
+  sbcbScroll: Subscription;
+  hScroll$ = new BehaviorSubject<number | string>('max');
+
   initialData: RealizedFigures | null = null;
 
   constructor(private activatedRoute: ActivatedRoute) {
+    this.sbcbScroll = inject(ScrollDispatcher)
+      .scrolled()
+      .pipe(
+        map(x => x as CdkScrollable),
+        filter(x => x != null && x.getElementRef().nativeElement.classList.contains('middle')))
+      .subscribe(s => {
+        const middle = s.getElementRef().nativeElement;
+        const others = Array.from(document.querySelectorAll('.middle')).filter(x => x != middle);
+        console.log(middle);
+        others.forEach(div => div.scrollLeft = middle.scrollLeft);
+      });
   }
 
   ngOnInit() {
@@ -80,5 +96,9 @@ export class GridLinesComponent implements OnInit {
 
       grids[dataIndex].names = updatedNames;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.sbcbScroll.unsubscribe();
   }
 }
