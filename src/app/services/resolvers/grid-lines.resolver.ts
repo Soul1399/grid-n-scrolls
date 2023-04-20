@@ -3,18 +3,21 @@ import { FigureName } from '../../model/figure-name';
 import { RealizedFigure } from '../../model/realized-figure';
 import { YearOfFigures } from '../../model/year-of-figures';
 import { RealizedFigures } from '../../state/realized-figures';
-import {
-  Router, Resolve,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot
-} from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, combineLatest, delay, first, map, of, switchMap, tap } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { RealizedPageActions } from 'src/app/store/actions/realized-page.actions';
+import { RealizedSelectors } from 'src/app/store/selectors/realized-selectors';
+import { AppState } from 'src/app/state/app-state';
+import { GridFigures } from 'src/app/model/grid-figures';
 
 @Injectable({
   providedIn: 'root'
 })
-export class GridLinesResolver implements Resolve<RealizedFigures> {
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<RealizedFigures> {
+export class GridLinesResolver {
+  constructor(private store: Store<AppState>) {
+  }
+
+  resolve(): Observable<{ grids: GridFigures[], allFigures: { [key: string]: number | null } }> {
     const data = new RealizedFigures(
       [new FigureName('1', 'One'), new FigureName('2', 'Two'), new FigureName('3', 'Three')],
       [...Array(10).keys()].map(k => new YearOfFigures(2017 + k)),
@@ -27,7 +30,17 @@ export class GridLinesResolver implements Resolve<RealizedFigures> {
         new RealizedFigure(2021, '3', 'main', 35.09),
         new RealizedFigure(2018, '2', 'main', 1.09)
       ]);
-
-    return of(data);
+    
+    this.store.dispatch(RealizedPageActions.init({ realizedData: data }));
+    return this.store.select(RealizedSelectors.grids).pipe(
+      first(x => x != null),
+      delay(1000),
+      switchMap(x => {
+        this.store.dispatch(RealizedPageActions.initDictionary());
+        return combineLatest([this.store.select(RealizedSelectors.allFigures), of(x)]);
+      }),
+      first(a => a.every(x => x != null)),
+      map(([f, g]) => ({ grids: g, allFigures: f }))
+    );
   }
 }

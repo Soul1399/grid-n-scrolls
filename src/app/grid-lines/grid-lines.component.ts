@@ -1,5 +1,5 @@
 import { inject, Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { GridFigures } from '../model/grid-figures';
 import { RealizedFigures } from '../state/realized-figures';
@@ -36,8 +36,11 @@ export class GridLinesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.initialData = Object.assign(new RealizedFigures(), this.activatedRoute.snapshot.data['data']);
-    this.setupViewModel();
+    //this.setupViewModel();
+
+    const data = this.activatedRoute.snapshot.data['data'] as { grids: GridFigures[], allFigures: { [key: string]: number | null } };
+    this.allFigures$.next(data.allFigures);
+    this.data$.next(data.grids);
   }
 
   getSortedSections() {
@@ -48,6 +51,8 @@ export class GridLinesComponent implements OnInit, OnDestroy {
   }
 
   setupViewModel() {
+    this.initialData = Object.assign(new RealizedFigures(), this.activatedRoute.snapshot.data['data']);
+
     if (this.data$.getValue().length > 0) return;
     if (this.initialData == null) {
       this.allFigures$.next({});
