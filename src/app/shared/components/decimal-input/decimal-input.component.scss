@@ -1,0 +1,15 @@
+:host {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+}
+
+.decimal-input {
+    width: 97%;
+    height: 27px;
+    padding: 0 1ch;
+    &[readonly] {
+        background-color: grey;
+    }
+}

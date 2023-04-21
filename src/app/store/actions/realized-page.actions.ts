@@ -9,8 +9,7 @@ export const RealizedPageActions = createActionGroup({
     //'Opened': emptyProps(),
     'Toggle Figures': props<{ section: string, name: string }>(),
     
-    // defining an event with payload using the `props` function
-    //'Pagination Changed': props<{ page: number; offset: number }>(),
+    'Figure Changed': props<{ key: string; value: number | null }>(),
     
     // defining an event with payload using the props factory
     //'Query Changed': (query: string) => ({ query }),

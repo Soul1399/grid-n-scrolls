@@ -5,12 +5,14 @@ export interface RealizedState {
     rawData: RealizedFigures;
     allFigures: { [key: string]: number | null };
     displayConfig: RealizedDisplayConfig;
-    stackOfchanges: { [key: string]: number | null };
+    stackOfchanges: { [key: string]: number | null }[][];
+    stackSize: number;
 }
 
 export const defaultRealizedState: RealizedState = {
     rawData: new RealizedFigures(),
     allFigures: {},
     displayConfig: new RealizedDisplayConfig(),
-    stackOfchanges: {}
+    stackOfchanges: [],
+    stackSize: 14
 };

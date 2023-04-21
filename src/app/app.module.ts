@@ -12,6 +12,7 @@ import { GridLinesComponent } from './grid-lines/grid-lines.component';
 
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { realizedReducer } from './store/reducers/realized-reducer';
+import { DecimalInputComponent } from './shared/components/decimal-input/decimal-input.component';
 // import { reducers, metaReducers } from './store/reducers/generated';
 
 @NgModule({
@@ -19,7 +20,8 @@ import { realizedReducer } from './store/reducers/realized-reducer';
     AppComponent,
     HomeComponent,
     RootComponent,
-    GridLinesComponent
+    GridLinesComponent,
+    DecimalInputComponent
   ],
   imports: [
     BrowserModule,

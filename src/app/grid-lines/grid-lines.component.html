@@ -1,8 +1,8 @@
-<div *ngIf="data$ | async as data">
+<div *ngIf="sections$ | async as sections">
   <ng-container
-    *ngFor="let grid of data"
+    *ngFor="let section of sections"
     [ngTemplateOutlet]="gridlines"
-    [ngTemplateOutletContext]="{ $implicit: grid }">
+    [ngTemplateOutletContext]="{ $implicit: grids$[section] | async }">
   </ng-container>
 </div>
 
@@ -23,7 +23,11 @@
         <ng-container *ngFor="let n of grid.names">
           <ng-container *ngFor="let y of grid.years">
             <div class="row-cell">
-              <input [value]="figures[n.key + '/' + y.year]" [readonly]="n.type !== 'name'">
+              <app-decimal-input
+                [(decimalValue)]="figures[n.key + '/' + y.year]" 
+                (decimalValueChange)="onChangedFigure(n.key + '/' + y.year, $event)" 
+                [allowEdit]="n.type === 'name'">
+              </app-decimal-input>
             </div>
           </ng-container>
         </ng-container>

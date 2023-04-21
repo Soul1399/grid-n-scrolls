@@ -1,0 +1,8 @@
+
+<input #input class="decimal-input" 
+    [value]="displayedValue" 
+    [readonly]="!allowEdit"
+    (change)="onChange($event)" 
+    (focus)="onFocus($event)"
+    (blur)="onBlur($event)"
+    (beforeinput)="preventNaN($event)">
