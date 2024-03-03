@@ -1,15 +1,51 @@
+@use 'scss/vars';
+@use 'scss/flex';
+
 /* You can add global styles to this file, and also import other style files */
 
-html {
+.m-0 {
   margin: 0;
+}
+
+.m-auto {
+  margin: auto;
+}
+
+.p-0 {
   padding: 0;
 }
-body {
+
+.fully-hidden {
+  @extend .dsp-none;
+  visibility: hidden;
+  overflow: hidden;
+  line-height: 0;
+  width: 0;
+  height: 0;
+  max-width: 0;
+  max-height: 0;
   margin: 0;
   padding: 0;
+  border: none;
+  background-color: transparent;
+  color: transparent;
+  opacity: 0;
+  z-index: 0;
+}
+
+[hidden] {
+  @extend .fully-hidden;
+}
+
+html {
+  @extend .m-0, .p-0;
+}
+body {
+  @extend .m-0, .p-0;
   width: 100%;
   height: 100%;
   * {
     box-sizing: border-box;
   }
 }
+

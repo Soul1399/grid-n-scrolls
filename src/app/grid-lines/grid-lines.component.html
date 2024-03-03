@@ -22,12 +22,10 @@
         </div>
         <ng-container *ngFor="let n of grid.names">
           <ng-container *ngFor="let y of grid.years">
-            <div class="row-cell">
-              <app-decimal-input
+            <div class="row-cell" app-decimal-input
                 [(decimalValue)]="figures[n.key + '/' + y.year]" 
                 (decimalValueChange)="onChangedFigure(n.key + '/' + y.year, $event)" 
                 [allowEdit]="n.type === 'name'">
-              </app-decimal-input>
             </div>
           </ng-container>
         </ng-container>

@@ -1,0 +1,78 @@
+$styles: (margin: mrg, padding: pdd, width: wdt, height: hgt, min-width: min-wdt, min-height: min-hgt);
+@each $stl, $sname in $styles {
+    @if $stl != margin and $stl != padding {
+        $sizenames: (min-content: min-ctt, max-content: max-xtt, inherit: inh, unset: ust, fit-content: fit-ctt);
+        @each $s, $sn in $sizenames {
+            .#{$sname}-#{$sn} {
+                #{$stl}: #{$s};
+            }
+        }
+    }
+
+    .#{$sname}-auto {
+        #{$stl}: auto;
+    }
+    .#{$sname}-0 {
+        #{$stl}: 0;
+    }
+    
+    $units: cm, mm, "Q", "in", pc, pt, px, "%", vw, vh;
+    @for $i from 1 through 2000 {
+        @each $u in $units {
+            @if $u == "%" {
+                .#{$sname}-#{$i}p {
+                    #{$stl}: #{$i}#{$u};
+                }
+            } @else {
+                .#{$sname}-#{$i}#{$u} {
+                    #{$stl}: #{$i}#{$u};
+                }
+            }
+        }
+    }
+    $units2: em, rem, ex, ch, lh, rlh;
+    @for $i from 1 through 100 {
+        @each $u in $units2 {
+            $d: $i / 10;
+            @if $i < 10 {
+                .#{$sname}-0#{$i}#{$u} {
+                    #{$stl}: #{$d}#{$u};
+                }
+            }
+            @else {
+                .#{$sname}-#{$i}#{$u} {
+                    #{$stl}: #{$d}#{$u};
+                }
+            }
+        }
+    }
+}
+
+.fts-0 {
+    font-size: 0;
+}
+$fontunits: cm, mm, "Q", "in", pc, pt, px, em, rem, ex, ch, lh, rlh;
+@for $i from 1 through 100 {
+    @each $fu in $fontunits {
+        .fts-#{$i}#{$fu} {
+            font-size: #{$i}#{$fu};
+        }
+    }
+}
+.opc-0 {
+    opacity: 0;
+}
+
+@for $i from 1 through 10 {
+    .opc-#{$i}0 {
+        $d: $i / 10;
+        opacity: #{$d};
+    }
+}
+
+$varsdsp: (flex: flex, grid: grid, none: none, inline: iln, block: blk, inline-block: ibk);
+@each $v, $name in $varsdsp {
+    .dsp-#{$name} {
+        display: #{$v};
+    }
+}

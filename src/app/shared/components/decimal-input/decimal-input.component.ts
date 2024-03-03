@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmi
 import { toNumber } from 'lodash';
 
 @Component({
-  selector: 'app-decimal-input',
+  selector: '[app-decimal-input]',
   templateUrl: './decimal-input.component.html',
   styleUrls: ['./decimal-input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

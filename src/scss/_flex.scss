@@ -1,0 +1,46 @@
+@use 'vars';
+
+.flex-rtl {
+    @extend .dsp-flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.flex-rtl-mdl {
+    @extend .dsp-flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.flex-rtl-btm {
+    @extend .dsp-flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+
+.flex-rtl-ctr-mdl {
+    @extend .dsp-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-ttb-ctr {
+    @extend .dsp-flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.flex-ttb-ctr-mdl {
+    @extend .dsp-flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.flex-ttb-ctr-btm {
+    @extend .dsp-flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: column;
+}
